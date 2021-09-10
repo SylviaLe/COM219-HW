@@ -1,0 +1,39 @@
+//   example3.jas
+//
+//   int i, k;
+//   i = 9;
+//   if( i<5 )
+//       k=7;
+//   else
+//       k=8;
+//   System.out.print(k)
+//
+//   Demonstrates conditionals and output of single digit
+
+
+.main
+        .var
+            i
+            k
+        .end-var
+
+        BIPUSH 2    // store a value into variable i
+        ISTORE i
+
+        ILOAD i     // if( i<5 )
+        BIPUSH 5        
+        ISUB        // i-5
+        IFLT DO
+        BIPUSH 8    // k=8
+        ISTORE k
+        GOTO SKIP
+DO:     BIPUSH 7    // k=7
+        ISTORE k
+
+SKIP:   ILOAD k
+        BIPUSH 48   // 48 is ASCII code for 0
+        IADD
+        OUT         // assume single digit output
+        HALT
+
+.end-main

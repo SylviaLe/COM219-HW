@@ -1,0 +1,47 @@
+//   example4.jas
+//
+//   int i, k;
+//   i = get_key_input( );
+//
+//   if( i<5 )
+//       k=7;
+//   else
+//       k=8;
+//   System.out.print(k)
+//
+//   Demonstrates input and output 
+
+
+.main
+        .var
+            i
+            k
+        .end-var
+
+START:  IN              // get input key
+        DUP
+        ISTORE i        // store key in variable i
+        BIPUSH 0	
+        IF_ICMPEQ START // loop until a key is pressed
+
+        ILOAD i
+        BIPUSH 48	
+        ISUB            // subtract ASCII '0' to obtain numeric value
+
+        BIPUSH 5       
+        ISUB
+        IFLT DO
+        BIPUSH 8        // k=8
+        ISTORE k
+        GOTO SKIP
+DO:     BIPUSH 7        // k=7
+        ISTORE k
+
+SKIP:   ILOAD k
+        BIPUSH 48       // 48 is ASCII code for 0
+        IADD
+        OUT             // assume single digit output
+        BIPUSH 0x20     // 0x20 (32) is ASCII code of space
+        OUT
+        GOTO START
+.end-main

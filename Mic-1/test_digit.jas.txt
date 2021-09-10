@@ -1,0 +1,98 @@
+// test_digit.jas
+// Program that tests if the character input from the keyboard is a digit
+// Similar to test_digit1.jas except that the testing code is in a method
+
+.constant
+    OBJREF 0x40			// needed for method invocation
+.end-constant
+
+
+//====================== MAIN =======================
+//===================================================
+.main				   // start of program
+
+        .var
+            temp_key
+        .end-var
+
+START:  IN
+        DUP
+        ISTORE temp_key         		
+        IFEQ START              // if no characters are available for input, loop
+        ILOAD temp_key
+        OUT                     // else, print character
+
+        BIPUSH 32
+        OUT                     // print space
+
+        LDC_W OBJREF            // prepare for method call
+        ILOAD temp_key          // push parameter
+        INVOKEVIRTUAL is_digit  // call method
+        IFEQ PR_NO
+
+        LDC_W OBJREF            // is digit
+        INVOKEVIRTUAL print_yes
+        POP                     // discard return value
+        GOTO START
+
+PR_NO:  LDC_W OBJREF            // not a digit
+        INVOKEVIRTUAL print_no
+        POP                     // discard return value
+        GOTO START
+
+.end-main
+
+
+//==================== IS DIGIT =====================
+//===================================================
+.method is_digit( key )
+        ILOAD key
+        BIPUSH 0x30		// if key < "0"
+        ISUB			//
+        IFLT NOT		// goto not (key is not a digit)
+    	
+        ILOAD key
+        BIPUSH 0x39		// else if key > "9"
+        SWAP
+        ISUB			
+        IFLT NOT		// goto not (key is not a numeric character - "0"-"9")
+
+        BIPUSH 1        // is digit, return 1
+        IRETURN
+
+NOT:    BIPUSH 0        // is not a digit, return 0
+        IRETURN
+        
+.end-method             // end is_digit
+
+
+//=================== PRINT YES =====================
+//===================================================
+.method print_yes()
+        BIPUSH 89       // 'Y'
+        OUT
+        BIPUSH 69       // 'E'
+        OUT
+        BIPUSH 83       // 'S'
+        OUT
+        BIPUSH 0xa      // CR
+        OUT
+        BIPUSH 0xa      // arbitrary return value
+        IRETURN
+        
+.end-method
+
+
+//=================== PRINT NO ======================
+//===================================================
+.method print_no()
+        BIPUSH 78       // 'N'
+        OUT
+        BIPUSH 79       // 'O'
+        OUT
+        BIPUSH 0xa      // CR
+        OUT
+        BIPUSH 0xa      // arbitrary return value
+        IRETURN
+        
+.end-method

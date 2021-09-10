@@ -1,0 +1,18 @@
+//   example1.jas
+//
+//   Adds 17 to variable 't' in a loop 
+//   Demonstrates operand stack, labels and branching
+
+
+.main
+        .var
+            t
+        .end-var
+
+L1:     BIPUSH 0x11       // or BIPUSH 17
+        ILOAD  t
+        IADD
+        ISTORE t
+        GOTO L1
+
+.end-main

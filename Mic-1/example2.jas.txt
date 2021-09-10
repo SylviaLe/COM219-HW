@@ -1,0 +1,27 @@
+//   example2.jas
+//
+//   int i=7;
+//
+//   if( i>=5 )
+//       i++
+//         
+//   Demonstrates conditionals
+
+
+.main
+        .var
+            i
+        .end-var
+
+        BIPUSH 3       // store a value into variable i
+        ISTORE i
+
+        ILOAD i        // if( i>=5 )
+        BIPUSH 5
+        ISUB	       // i-5
+        IFLT SKIP 
+        IINC i 1       // i++
+
+SKIP:   HALT
+
+.end-main
